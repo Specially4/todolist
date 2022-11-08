@@ -12,7 +12,7 @@
 ### Clone the repo
 
 ```sh
-git clone
+git clone https://github.com/Specially4/todolist.git
 ```
 
 ### Install dependency manager
