@@ -58,6 +58,20 @@ _Mac/Linux_
 ./manage.py migrate
 ```
 
+### Create superuser
+
+_Windows_
+
+```sh
+python manage.py createsuperuser
+```
+
+_Mac/Linux_
+
+```sh
+./manage.py createsuperuser
+```
+
 ### Run app
 
 _Windows_
@@ -70,4 +84,27 @@ _Mac/Linux_
 
 ```sh
 ./manage.py runserver
+```
+
+### Set Debug
+
+_Windows_ - __cmd__
+
+```sh
+set DEBUG=False
+set DEBUG=True
+```
+
+_Windows_ - __PowerShell__
+
+```sh
+$Env:DEBUG = 'False'
+$Env:DEBUG = 'True'
+```
+
+_Mac/Linux_
+
+```sh
+export DEBUG=False
+export DEBUG=True
 ```
