@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    date_of_birth = models.DateTimeField()
-    age = models.PositiveIntegerField()
+    date_of_birth = models.DateTimeField(null=True, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Пользователь'
