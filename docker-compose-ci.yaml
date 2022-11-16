@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  front:
+    image: path
+    ports:
+    - 8000:80
+    depends_on:
+      - api
+  api:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    volumes:
+      - ./.env:/app/.env
+  migrations:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./.env:/app/.env
+    command: python manage.py migrate
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_NAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todolist
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

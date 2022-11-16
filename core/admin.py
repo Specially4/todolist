@@ -1,9 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from core.models import User
 
 
-class Person(admin.ModelAdmin):
+@admin.register(User)
+class Person(UserAdmin):
     list_filter = ['is_staff', 'is_superuser', 'is_active']
     list_display = ['username', 'email', 'first_name', 'last_name']
     search_fields = ['username', 'email', 'first_name', 'last_name']
