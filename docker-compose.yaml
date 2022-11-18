@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   front:
-    image: path
+    image: sermalenk/skypro-front:lesson-34
     ports:
     - 8000:80
     depends_on:
