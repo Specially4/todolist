@@ -1,6 +1,7 @@
 FROM python:3.10-slim
 
 WORKDIR app/
+RUN sudo apt-get install libpq-dev python3-dev
 RUN pip install poetry
 COPY poetry.lock .
 COPY pyproject.toml .
