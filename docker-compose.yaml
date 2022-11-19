@@ -31,7 +31,9 @@ services:
         condition: service_healthy
     env_file:
       - .env
-    command: python3 manage.py migrate
+    command: >
+      sh -c "python3 manage.py makemigrations"
+      sh -c "python3 manage.py migrate"
   postgres:
     image: postgres:latest
     environment:
