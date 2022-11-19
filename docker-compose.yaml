@@ -19,8 +19,8 @@ services:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
-    volumes:
-      - ./.docker_env:/app/.env
+    env_file:
+      - .env
     ports:
       - "8000:8000"
   migrations:
@@ -29,8 +29,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./.docker_env:/app/.env
+    env_file:
+      - .env
     command: >
       sh -c "python3 manage.py makemigrations"
       sh -c "python3 manage.py migrate"
@@ -43,13 +43,14 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    env_file:
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
-      - ./.docker_env:/app/.env
       - ./pg_data:/var/lib/postgresql/data
 
 volumes:
