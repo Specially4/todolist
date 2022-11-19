@@ -4,7 +4,7 @@ services:
   front:
     image: sermalenk/skypro-front:lesson-34
     ports:
-    - 8000:80
+      - 80:80
     depends_on:
       - api
   api:
@@ -15,25 +15,30 @@ services:
       migrations:
         condition: service_completed_successfully
     volumes:
-      - ./.env:/app/.env
+      - .env:/todolist/.env
   migrations:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./.env:/app/.env
-    command: python manage.py migrate
+    env_file:
+      - .env
+    command: python3 manage.py migrate
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_NAME: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./pg_data:/var/lib/postgresql/data
