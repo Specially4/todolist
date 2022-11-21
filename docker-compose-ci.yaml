@@ -15,14 +15,14 @@ services:
       migrations:
         condition: service_completed_successfully
     env_file:
-      - .env_docker
+      - .env
   migrations:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
     env_file:
-      - .env_docker
+      - .env
     command: python3 manage.py migrate
   postgres:
     image: postgres:latest
@@ -34,7 +34,7 @@ services:
       - "5433:5432"
     restart: always
     env_file:
-      - .env_docker
+      - .env
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 5s
