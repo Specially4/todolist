@@ -19,5 +19,5 @@ from core.views import CreateUserView, RetrieveUserView
 
 urlpatterns = [
     path('signup/', CreateUserView.as_view(), name='signup'),
-    path('profile/', RetrieveUserView.as_view(), name='profile'),
+    path('profile/', RetrieveUserView, name='profile'),
 ]
