@@ -18,6 +18,6 @@ from django.urls import path
 from core.views import CreateUserView, RetrieveUserView
 
 urlpatterns = [
-    path('signup/', CreateUserView.as_view(), name='signup'),
+    path('signup', CreateUserView.as_view(), name='signup'),
     path('profile/', RetrieveUserView, name='profile'),
 ]
