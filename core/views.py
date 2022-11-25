@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.shortcuts import render
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
@@ -32,5 +33,6 @@ class LoginUserView(GenericAPIView):
         serializer: LoginSerializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        login(request, user=user)
         user_serializer = RetrieveUserSerializer(instance=user)
         return Response(user_serializer.data)
