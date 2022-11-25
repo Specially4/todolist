@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
@@ -57,3 +58,16 @@ class RetrieveUserSerializer(serializers.ModelSerializer):
             'last_name',
             'email'
         ]
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        user = authenticate(username=username, password=password)
+        if not user:
+            raise ValidationError('password or username in not correct')
+        return attrs
