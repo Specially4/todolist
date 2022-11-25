@@ -60,7 +60,7 @@ class RetrieveUserSerializer(serializers.ModelSerializer):
         ]
 
 
-class LoginSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
 
@@ -70,4 +70,5 @@ class LoginSerializer(serializers.ModelSerializer):
         user = authenticate(username=username, password=password)
         if not user:
             raise ValidationError('password or username in not correct')
+        attrs["user"] = user
         return attrs
