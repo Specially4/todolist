@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
@@ -13,8 +14,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
          UniqueValidator(queryset=User.objects.all())
         ]
     )
-    password = serializers.CharField(min_length=1, write_only=True)
-    password_repeat = serializers.CharField(min_length=1, write_only=True)
+    password = serializers.CharField(min_length=1, write_only=True, validators=[validate_password])
+    password_repeat = serializers.CharField(min_length=1, write_only=True, validators=[validate_password])
 
     class Meta:
         model = User
@@ -29,6 +30,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, attrs):
+        """
+        Переопределил пустой validate для проверки пароля, так же достаю и удаляю password_repeat.
+        """
         password_repeat = attrs.pop('password_repeat', None)
         password = attrs.get('password')
 
@@ -51,13 +55,13 @@ class RetrieveUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
+        fields = (
             'id',
             'username',
             'first_name',
             'last_name',
             'email'
-        ]
+        )
 
 
 class LoginSerializer(serializers.Serializer):
@@ -69,6 +73,31 @@ class LoginSerializer(serializers.Serializer):
         password = attrs.get('password')
         user = authenticate(username=username, password=password)
         if not user:
-            raise ValidationError('password or username in not correct')
+            raise ValidationError('password or username is not correct')
         attrs["user"] = user
         return attrs
+
+
+class PasswordUpdateSerializer(serializers.ModelSerializer):
+    password_old = serializers.CharField(min_length=1, write_only=True)
+    password_new = serializers.CharField(min_length=1, write_only=True, validators=[validate_password])
+
+    class Meta:
+        model = User
+        fields = ('password_old', 'password_new')
+
+    def validate(self, attrs):
+        """
+        Переопределил пустой validate для проверки пароля, так же достаю и удаляю password_repeat.
+        """
+        password_old = attrs.get('password_old')
+
+        user: User = self.instance
+        if not user.check_password(password_old):
+            raise ValidationError({'password_old': 'is incorrect'})
+        return attrs
+
+    def update(self, instance: User, validated_data):
+        instance.set_password(validated_data['password_new'])
+        instance.save(update_fields=['password'])
+        return instance
