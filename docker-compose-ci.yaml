@@ -15,14 +15,14 @@ services:
       migrations:
         condition: service_completed_successfully
     volumes:
-      - ./.docker_env:/todolist/.env
+      - ./.docker_ci_env:/todolist/.env
   migrations:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
     volumes:
-      - ./.docker_env:/todolist/.env
+      - ./.docker_ci_env:/todolist/.env
     command: python3 manage.py migrate
   postgres:
     image: postgres:latest
@@ -30,6 +30,7 @@ services:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
+      HOST: $HOST
     ports:
       - "5433:5432"
     restart: always
@@ -40,4 +41,3 @@ services:
       retries: 5
     volumes:
       - ./pg_data:/var/lib/postgresql/data
-      - ./.docker_env:/todolist/.env
