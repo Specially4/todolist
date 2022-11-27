@@ -12,13 +12,6 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    environment:
-      DEBUG: $DEDUG
-      SECRET_KEY: $SECRET_KEY
-      ALLOWED_HOSTS: $ALLOWED_HOSTS
-      SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
-      DATABASE_URL: $DATABASE_URL
     depends_on:
       postgres:
         condition: service_healthy
