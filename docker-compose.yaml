@@ -27,13 +27,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      DEBUG: $DEDUG
-      SECRET_KEY: $SECRET_KEY
-      ALLOWED_HOSTS: $ALLOWED_HOSTS
-      SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
-      DATABASE_URL: $DATABASE_URL
+    env_file:
+      - .env
     command: python3 manage.py migrate
   postgres:
     image: postgres:latest
