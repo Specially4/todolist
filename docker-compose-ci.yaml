@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-35
     ports:
       - 80:80
     depends_on:
@@ -14,15 +14,11 @@ services:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
-    env_file:
-      - .env
   migrations:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres:
         condition: service_healthy
-    env_file:
-      - .env
     command: python3 manage.py migrate
   postgres:
     image: postgres:latest
@@ -30,8 +26,6 @@ services:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
-    env_file:
-      - .env
     ports:
       - "5433:5432"
     restart: always

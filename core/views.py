@@ -27,8 +27,7 @@ class RetrieveUserView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        user = get_user(request=self.request)
-        return user
+        return self.request.user
 
     def delete(self, request, *args, **kwargs):
         """
