@@ -20,3 +20,36 @@ class GoalCategory(models.Model):
             self.created = timezone.now()  # проставляем дату создания
         self.updated = timezone.now()  # проставляем дату обновления
         return super().save(*args, **kwargs)
+
+
+class Goal(models.Model):
+
+    class Status(models.IntegerChoices):
+        to_do = 1, "К выполнению"
+        in_progress = 2, "В процессе"
+        done = 3, "Выполнено"
+        archived = 4, "Архив"
+
+    class Priority(models.IntegerChoices):
+        low = 1, "Низкий"
+        medium = 2, "Средний"
+        high = 3, "Высокий"
+        critical = 4, "Критический"
+
+    class Meta:
+        verbose_name = "Цель"
+        verbose_name_plural = "Цели"
+
+    title = models.CharField(verbose_name="Заголовок", max_length=255)
+    description = models.TextField(verbose_name="Описание", null=True, blank=True)
+    due_date = models.DateField(verbose_name="Дата выполнения", null=True, blank=True)
+    status = models.PositiveSmallIntegerField(verbose_name="Статус", choices=Status.choices, default=Status.to_do)
+    priority = models.PositiveSmallIntegerField(
+        verbose_name="Приоритет",
+        choices=Priority.choices,
+        default=Priority.medium
+    )
+    category = models.ForeignKey(GoalCategory, on_delete=models.CASCADE, null=True)
+    created = models.DateTimeField(verbose_name="Дата создания")
+    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
+
