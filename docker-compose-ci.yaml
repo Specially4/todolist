@@ -26,7 +26,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: python3 manage.py migrate
+    command: >
+      sh -c 'python3 manage.py makemigrations'
+      sh -c 'python3 manage.py migrate'
     environment:
       DEBUG: $DEDUG
       SECRET_KEY: $SECRET_KEY
@@ -50,3 +52,6 @@ services:
       retries: 5
     volumes:
       - ./pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
