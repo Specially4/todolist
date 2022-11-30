@@ -71,7 +71,7 @@ class GoalListView(ListAPIView):
 
     def get_queryset(self):
         return Goal.objects.filter(
-            user=self.request.user, is_deleted=False
+            category__participants__user=self.request.user, is_deleted=False
         )
 
 
