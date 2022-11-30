@@ -14,7 +14,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    user = RetrieveUserSerializer(read_only=True)
 
     class Meta:
         model = Goal

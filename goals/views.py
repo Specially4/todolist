@@ -64,15 +64,13 @@ class GoalListView(ListAPIView):
         filters.OrderingFilter,
         filters.SearchFilter,
                        ]
-    filterset_class = [GoalDateFilter]
-    ordering_fields = ["priority", "status", "due_date"]
-    ordering = ["priority", "status", "due_date"]
+    filterset_class = GoalDateFilter
+    ordering_fields = ["priority", "due_date"]
+    ordering = ["priority", "due_date"]
     search_fields = ["title"]
 
     def get_queryset(self):
-        return Goal.objects.filter(
-            category__participants__user=self.request.user, is_deleted=False
-        )
+        return Goal.objects.filter(user=self.request.user)
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
@@ -81,7 +79,9 @@ class GoalView(RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Goal.objects.filter(user=self.request.user, is_deleted=False)
+        return Goal.objects.filter(
+            user=self.request.user
+        )
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
