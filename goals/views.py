@@ -5,13 +5,14 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from goals.filters import GoalDateFilter
 from goals.models import GoalCategory, Goal
-from goals.serializers import GoalCreateSerializer, GoalCategorySerializer, GoalSerializer
+from goals.serializers.serializers_category import GoalCategorySerializer, GoalCategoryCreateSerializer
+from goals.serializers.serializers_goal import GoalCreateSerializer, GoalSerializer
 
 
 class GoalCategoryCreateView(CreateAPIView):
     model = GoalCategory
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = GoalCreateSerializer
+    serializer_class = GoalCategoryCreateSerializer
 
 
 class GoalCategoryListView(ListAPIView):
@@ -64,8 +65,8 @@ class GoalListView(ListAPIView):
         filters.SearchFilter,
                        ]
     filterset_class = [GoalDateFilter]
-    ordering_fields = ["title", "created"]
-    ordering = ["title"]
+    ordering_fields = ["priority", "status", "due_date"]
+    ordering = ["priority", "status", "due_date"]
     search_fields = ["title"]
 
     def get_queryset(self):

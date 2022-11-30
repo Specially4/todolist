@@ -1,25 +1,16 @@
 from rest_framework import serializers
 
 from core.serializers import RetrieveUserSerializer
-from goals.models import GoalCategory, Goal
+from goals.models import GoalCategory
 
 
-class GoalCreateSerializer(serializers.ModelSerializer):
+class GoalCategoryCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
-        model = Goal
+        model = GoalCategory
         read_only_fields = ("id", "created", "updated", "user")
         fields = "__all__"
-
-
-class GoalSerializer(serializers.ModelSerializer):
-    user = RetrieveUserSerializer(read_only=True)
-
-    class Meta:
-        model = Goal
-        fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user")
 
 
 class GoalCategorySerializer(serializers.ModelSerializer):
