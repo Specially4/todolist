@@ -6,7 +6,6 @@ from goals.models import GoalComment
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    goal = serializers.RelatedField()
 
     class Meta:
         model = GoalComment
