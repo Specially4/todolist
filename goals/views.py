@@ -4,21 +4,22 @@ from rest_framework import permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
 
 from goals.filters import GoalDateFilter
-from goals.models import GoalCategory, Goal
-from goals.serializers.serializers_category import GoalCategorySerializer, GoalCategoryCreateSerializer
+from goals.models import GoalCategory, Goal, GoalComment
+from goals.serializers.serializers_category import CategorySerializer, CategoryCreateSerializer
+from goals.serializers.serializers_comment import CommentCreateSerializer, CommentSerializer
 from goals.serializers.serializers_goal import GoalCreateSerializer, GoalSerializer
 
 
 class GoalCategoryCreateView(CreateAPIView):
     model = GoalCategory
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = GoalCategoryCreateSerializer
+    serializer_class = CategoryCreateSerializer
 
 
 class GoalCategoryListView(ListAPIView):
     model = GoalCategory
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = GoalCategorySerializer
+    serializer_class = CategorySerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
         filters.OrderingFilter,
@@ -36,7 +37,7 @@ class GoalCategoryListView(ListAPIView):
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     model = GoalCategory
-    serializer_class = GoalCategorySerializer
+    serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -87,3 +88,32 @@ class GoalView(RetrieveUpdateDestroyAPIView):
         instance.status = Goal.Status.archived
         instance.save()
         return instance
+
+
+class CommentCreateView(CreateAPIView):
+    model = GoalComment
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CommentCreateSerializer
+
+
+class CommentListView(ListAPIView):
+    model = GoalComment
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CommentSerializer
+    pagination_class = LimitOffsetPagination
+    ordering_fields = ["-created"]
+    ordering = ["-created"]
+
+    def get_queryset(self):
+        return GoalComment.objects.filter(user=self.request.user)
+
+
+class CommentView(RetrieveUpdateDestroyAPIView):
+    model = GoalComment
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return GoalComment.objects.filter(
+            user=self.request.user
+        )

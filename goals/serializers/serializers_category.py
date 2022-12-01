@@ -4,7 +4,7 @@ from core.serializers import RetrieveUserSerializer
 from goals.models import GoalCategory
 
 
-class GoalCategoryCreateSerializer(serializers.ModelSerializer):
+class CategoryCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -13,7 +13,7 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class GoalCategorySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     user = RetrieveUserSerializer(read_only=True)
 
     class Meta:
