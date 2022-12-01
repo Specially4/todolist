@@ -95,6 +95,10 @@ class CommentCreateView(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CommentCreateSerializer
 
+    def perform_create(self, serializer: CommentCreateSerializer):
+        serializer.save(goal_id=self.request.data['goal'])
+
+
 
 class CommentListView(ListAPIView):
     model = GoalComment
@@ -102,10 +106,12 @@ class CommentListView(ListAPIView):
     serializer_class = CommentSerializer
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_fields = ["goal"]
-    ordering = ["-created"]
+    ordering = ["-id"]
 
     def get_queryset(self):
-        return GoalComment.objects.filter(user=self.request.user)
+        return Goal.objects.filter(
+            user=self.request.user
+        )
 
 
 class CommentView(RetrieveUpdateDestroyAPIView):

@@ -67,8 +67,8 @@ class GoalComment(models.Model):
         verbose_name_plural = "Комментарии"
 
     text = models.TextField(verbose_name="Текст")
-    goal = models.ForeignKey(Goal, verbose_name="Цель", on_delete=models.PROTECT)
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.PROTECT)
+    goal = models.ForeignKey(Goal, verbose_name="Цель", on_delete=models.PROTECT, related_name="goal_comments")
+    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.PROTECT, related_name="goal_comments")
     created = models.DateTimeField(verbose_name="Дата создания")
     updated = models.DateTimeField(verbose_name="Дата последнего обновления")
 
