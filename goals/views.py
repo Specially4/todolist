@@ -112,8 +112,3 @@ class CommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return GoalComment.objects.filter(
-            user=self.request.user
-        )
