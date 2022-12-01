@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-35
+    image: sermalenk/skypro-front:lesson-36
     ports:
     - 80:80
     depends_on:
@@ -31,7 +31,7 @@ services:
       - .env
     command: python3 manage.py migrate
   postgres:
-    image: postgres:latest
+    image: postgres:15.1-alpine
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
