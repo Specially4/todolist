@@ -100,8 +100,8 @@ class CommentListView(ListAPIView):
     model = GoalComment
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CommentSerializer
-    pagination_class = LimitOffsetPagination
-    ordering_fields = ["-created"]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
+    filterset_fields = ["goal"]
     ordering = ["-created"]
 
     def get_queryset(self):
