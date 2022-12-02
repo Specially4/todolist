@@ -16,8 +16,6 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = RetrieveUserSerializer(read_only=True)
-    goal = GoalSerializer(read_only=True)
-
     class Meta:
         model = GoalComment
         read_only_fields = ('id', 'user', 'created', 'updated')
