@@ -99,11 +99,11 @@ class CommentCreateView(CreateAPIView):
         serializer.save(goal_id=self.request.data['goal'])
 
 
-
 class CommentListView(ListAPIView):
     model = GoalComment
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CommentSerializer
+    pagination_class = LimitOffsetPagination
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_fields = ["goal"]
     ordering = ["-id"]
