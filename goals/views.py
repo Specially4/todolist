@@ -110,8 +110,8 @@ class CommentListView(ListAPIView):
 
     def get_queryset(self):
         return GoalComment.objects.filter(
-            user=self.request.user
-
+            user=self.request.user,
+            goal__id=self.request.data['goal']
         )
 
 
