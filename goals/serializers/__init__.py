@@ -12,10 +12,10 @@ from .goal import (
 )
 
 __all__ = [
-    'CategoryCreateSerializer',
-    'CategorySerializer',
-    'CommentCreateSerializer',
-    'CommentSerializer',
-    'GoalCreateSerializer',
-    'GoalSerializer',
+    CategoryCreateSerializer,
+    CategorySerializer,
+    CommentCreateSerializer,
+    CommentSerializer,
+    GoalCreateSerializer,
+    GoalSerializer,
 ]

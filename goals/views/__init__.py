@@ -15,13 +15,13 @@ from .goal import (
 )
 
 __all__ = [
-    'GoalCategoryView',
-    'GoalCategoryListView',
-    'GoalCategoryCreateView',
-    'CommentCreateView',
-    'CommentListView',
-    'CommentView',
-    'GoalCreateView',
-    'GoalListView',
-    'GoalView',
+    GoalCategoryView,
+    GoalCategoryListView,
+    GoalCategoryCreateView,
+    CommentCreateView,
+    CommentListView,
+    CommentView,
+    GoalCreateView,
+    GoalListView,
+    GoalView,
 ]

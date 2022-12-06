@@ -30,7 +30,7 @@ services:
     env_file:
       - .env
     command: >
-      bash -c 'python3 manage.py makemigrations && python3 manage.py migrate'
+      bash -c 'python3 manage.py makemigrations -y && python3 manage.py migrate -y'
   postgres:
     image: postgres:15.1-alpine
     environment:
