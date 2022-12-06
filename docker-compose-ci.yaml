@@ -27,7 +27,7 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      bash -c 'python3 manage.py makemigrations -y && python3 manage.py migrate -y'
+      bash -c 'yes | python3 manage.py makemigrations && python3 manage.py migrate'
     environment:
       DEBUG: $DEDUG
       SECRET_KEY: $SECRET_KEY
