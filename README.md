@@ -2,7 +2,7 @@
 
 ## Stack
 
-* ![version](https://img.shields.io/badge/Poetry-v1.2.2-informational/?style=for-the-badge&logo=Poetry)
+* ![version](https://img.shields.io/badge/pip-v22.3.1-informational/?style=for-the-badge&logo=pypi)
 * ![version](https://img.shields.io/badge/Python-v3.10.6-informational/?style=for-the-badge&logo=Python)
 * ![version](https://img.shields.io/badge/Django-v4.1.3-informational/?style=for-the-badge&logo=Django)
 * ![version](https://img.shields.io/badge/Postgresql-v15.0-informational/?style=for-the-badge&logo=Postgresql)
@@ -15,27 +15,18 @@
 git clone https://github.com/Specially4/todolist.git
 ```
 
-### Install dependency manager
+### Install dependencies
 
 _Windows_
 
 ```sh
-pip install poetry
+pip install -r requirements.txt
 ```
 
 _Mac/Linux_
 
 ```sh
-pip3 install poetry
-```
-
-### Install dependencies
-
-_All_
-
-```sh
-poetry init
-poetry install
+pip3 install -r requirements_unix.txt
 ```
 
 ### Start DB
