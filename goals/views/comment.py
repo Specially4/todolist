@@ -28,7 +28,7 @@ class CommentListView(ListAPIView):
 
     def get_queryset(self):
         return Comment.objects.filter(
-            user=self.request.user
+            goal__category__board__participants__user=self.request.user
         )
 
 
@@ -39,5 +39,5 @@ class CommentView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Comment.objects.filter(
-            user=self.request.user
+            goal__category__board__participants__user=self.request.user
         )
