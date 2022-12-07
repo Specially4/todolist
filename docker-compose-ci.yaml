@@ -15,7 +15,7 @@ services:
       migrations:
         condition: service_completed_successfully
     environment:
-      DEBUG: $DEDUG
+      DEBUG: $DEBUG
       SECRET_KEY: $SECRET_KEY
       ALLOWED_HOSTS: $ALLOWED_HOSTS
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
@@ -27,9 +27,9 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      bash -c 'python3 manage.py migrate'
+      bash -c 'python manage.py migrate'
     environment:
-      DEBUG: $DEDUG
+      DEBUG: $DEBUG
       SECRET_KEY: $SECRET_KEY
       ALLOWED_HOSTS: $ALLOWED_HOSTS
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
