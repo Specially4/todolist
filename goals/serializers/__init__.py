@@ -10,12 +10,22 @@ from .goal import (
     GoalCreateSerializer,
     GoalSerializer,
 )
+from .board import (
+    BoardCreateSerializer,
+    BoardParticipantSerializer,
+    BoardSerializer,
+    BoardListSerializer,
+)
 
 __all__ = [
-    CategoryCreateSerializer,
-    CategorySerializer,
-    CommentCreateSerializer,
-    CommentSerializer,
-    GoalCreateSerializer,
-    GoalSerializer,
+    'CategoryCreateSerializer',
+    'CategorySerializer',
+    'CommentCreateSerializer',
+    'CommentSerializer',
+    'GoalCreateSerializer',
+    'GoalSerializer',
+    'BoardCreateSerializer',
+    'BoardParticipantSerializer',
+    'BoardSerializer',
+    'BoardListSerializer',
 ]

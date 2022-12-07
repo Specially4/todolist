@@ -4,6 +4,7 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from goals.models import Category
 from goals import serializers
+from goals.permissions import CategoryPermissions
 
 
 class GoalCategoryCreateView(CreateAPIView):
@@ -34,7 +35,7 @@ class GoalCategoryListView(ListAPIView):
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     model = Category
     serializer_class = serializers.CategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, CategoryPermissions]
 
     def get_queryset(self):
         return Category.objects.filter(user=self.request.user, is_deleted=False)

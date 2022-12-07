@@ -5,6 +5,7 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from goals.models import Comment
 from goals import serializers
+from goals.permissions import CommentPermissions
 
 
 class CommentCreateView(CreateAPIView):
@@ -34,7 +35,7 @@ class CommentListView(ListAPIView):
 class CommentView(RetrieveUpdateDestroyAPIView):
     model = Comment
     serializer_class = serializers.CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, CommentPermissions]
 
     def get_queryset(self):
         return Comment.objects.filter(
