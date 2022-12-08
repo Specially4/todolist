@@ -17,6 +17,7 @@ class CommentCreateView(CreateAPIView):
         serializer.save(goal_id=self.request.data['goal'])
 
 
+
 class CommentListView(ListAPIView):
     model = Comment
     permission_classes = [permissions.IsAuthenticated]
