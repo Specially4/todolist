@@ -21,6 +21,7 @@ services:
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
       SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
       DATABASE_URL: $DATABASE_URL
+      BOT_TOKEN: $BOT_TOKEN
   bot:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
@@ -52,6 +53,7 @@ services:
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
       SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
       DATABASE_URL: $DATABASE_URL
+      BOT_TOKEN: $BOT_TOKEN
   postgres:
     image: postgres:15.1-alpine
     environment:
