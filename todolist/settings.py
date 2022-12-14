@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_filters',
     'social_django',
     'goals',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
 SOCIAL_AUTH_URL_NAMESPACE = "social"
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ["email", "notify"]
+
+BOT_TOKEN = env.str('BOT_TOKEN')
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

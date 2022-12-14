@@ -17,10 +17,9 @@ class CommentCreateView(CreateAPIView):
         serializer.save(goal_id=self.request.data['goal'])
 
 
-
 class CommentListView(ListAPIView):
     model = Comment
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, CommentPermissions]
     serializer_class = serializers.CommentSerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]

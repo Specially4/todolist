@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - 80:80
     depends_on:
@@ -21,6 +21,23 @@ services:
       SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
       SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
       DATABASE_URL: $DATABASE_URL
+  bot:
+    image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    environment:
+      DEBUG: $DEBUG
+      SECRET_KEY: $SECRET_KEY
+      ALLOWED_HOSTS: $ALLOWED_HOSTS
+      SOCIAL_AUTH_VK_OAUTH2_KEY: $SOCIAL_AUTH_VK_OAUTH2_KEY
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: $SOCIAL_AUTH_VK_OAUTH2_SECRET
+      DATABASE_URL: $DATABASE_URL
+      BOT_TOKEN: $BOT_TOKEN
+    command: >
+      bash -c 'python3 manage.py runbot'
   migrations:
     image: specially4/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:

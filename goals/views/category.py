@@ -17,7 +17,7 @@ class GoalCategoryCreateView(CreateAPIView):
 
 class GoalCategoryListView(ListAPIView):
     model = Category
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, CategoryPermissions]
     serializer_class = serializers.CategorySerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
