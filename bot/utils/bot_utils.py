@@ -1,7 +1,7 @@
 from bot.models import TgUser
 from bot.tg.client import TgClient
 from bot.tg.dc import Message
-from goals.models import Goal, Category, Board, BoardParticipant
+from goals.models import Goal, Category, Board
 
 
 class BotGoal:
@@ -10,8 +10,17 @@ class BotGoal:
         self.msg = msg
         self.tg_client = tg_client
 
-    def get_goal(self):
+    def get_goal(self, first: bool = False, tg: bool = False) -> None:
         goals = Goal.objects.filter(user=self.tg_user.user, category__is_deleted=False)
+        if first and tg:
+            goals.filter(category__title__contains='tg').order_by('-created').first()
+        if not first and not tg:
+            goals = goals
+        if first and not tg:
+            goals.first()
+        if not first and tg:
+            goals.filter(category__title__contains='tg').order_by('-created')
+
         if goals.count() > 0:
             for goal in goals:
                 self.tg_client.send_message(
@@ -19,12 +28,12 @@ class BotGoal:
                     text=f'Заголовок: {goal.title}\n'
                          f'Описание: {goal.description if goal.due_date else "Не указано"}\n'
                          f'Дата выполнения: {goal.due_date if goal.due_date else "Не указана"}\n'
-                         f'Статус: {goal.Status.choices[goal.status - 1][1]}\n'
-                         f'Приоритет: {goal.Priority.choices[goal.priority - 1][1]}\n'
+                         f'Статус: {goal.get_priority_display()}\n'
+                         f'Приоритет: {goal.get_priority_display()}\n'
                          f'Категория: {goal.category.title}'
                 )
 
-    def check_user(self):
+    def check_user(self) -> None:
         self.tg_user.set_verification_code()
         self.tg_user.save(update_fields=['verification_code'])
         self.tg_client.send_message(
@@ -33,7 +42,7 @@ class BotGoal:
                                            f'{self.tg_user.verification_code} на сайте: skotenkov.tk'
         )
 
-    def create_goal(self):
+    def create_goal(self) -> None:
         line_break = '\n'
         categories = Category.objects.filter(user=self.tg_user.user)
         if '/create' == self.msg.text and categories.count() > 0:
@@ -77,12 +86,4 @@ class BotGoal:
             )
             goal.save()
 
-            self.tg_client.send_message(
-                chat_id=self.msg.chat.id,
-                text=f'Заголовок: {goal.title}\n'
-                     f'Описание: {goal.description if goal.due_date else "Не указано"}\n'
-                     f'Дата выполнения: {goal.due_date if goal.due_date else "Не указана"}\n'
-                     f'Статус: {goal.Status.choices[goal.status - 1][1]}\n'
-                     f'Приоритет: {goal.Priority.choices[goal.priority - 1][1]}\n'
-                     f'Категория: {goal.category.title}'
-            )
+            self.get_goal(first=True, tg=True)

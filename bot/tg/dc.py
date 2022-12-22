@@ -46,7 +46,7 @@ class Message:
     from_: MessageFrom = field(metadata={'data_key': 'from'})
     chat: MessageChat
     date: int
-    text: str | None
+    text: str
     # entities: list[MessageEntities]
 
     class Meta:

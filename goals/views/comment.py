@@ -13,7 +13,7 @@ class CommentCreateView(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.CommentCreateSerializer
 
-    def perform_create(self, serializer: serializers.CommentCreateSerializer):
+    def perform_create(self, serializer: serializers.CommentCreateSerializer) -> None:
         serializer.save(goal_id=self.request.data['goal'])
 
 
@@ -26,7 +26,7 @@ class CommentListView(ListAPIView):
     filterset_fields = ["goal"]
     ordering = ["-id"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Comment:
         return Comment.objects.filter(
             goal__category__board__participants__user=self.request.user
         )
@@ -37,7 +37,7 @@ class CommentView(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CommentSerializer
     permission_classes = [permissions.IsAuthenticated, CommentPermissions]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Comment:
         return Comment.objects.filter(
             goal__category__board__participants__user=self.request.user
         )

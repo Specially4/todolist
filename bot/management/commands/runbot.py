@@ -4,17 +4,16 @@ from bot.models import TgUser
 from bot.tg.client import TgClient
 from bot.tg.dc import Message
 from bot.utils.bot_utils import BotGoal
-from goals.models import Goal, Board, BoardParticipant
 from todolist import settings
 
 
 class Command(BaseCommand):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: int):
         super().__init__(*args, **kwargs)
         self.tg_client = TgClient(settings.BOT_TOKEN)
 
-    def verified_user(self, tg_user, msg: Message):
+    def verified_user(self, tg_user: TgUser, msg: Message) -> None:
         if msg.text == '/goals':
             BotGoal(tg_user=tg_user, msg=msg, tg_client=self.tg_client).get_goal()
         elif msg.text == '/start':
@@ -48,7 +47,7 @@ class Command(BaseCommand):
         else:
             BotGoal(tg_user=tg_user, msg=msg, tg_client=self.tg_client).check_user()
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args: str, **kwargs: int) -> None:
         offset = 0
 
         while True:

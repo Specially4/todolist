@@ -31,7 +31,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id", "created", "updated", "user")
 
-    def validate_category(self, value):
+    def validate_category(self, value: Category) -> Category:
         if value.is_deleted:
             raise serializers.ValidationError('not allowed in deleted category')
         if value.user != self.context['request'].user:

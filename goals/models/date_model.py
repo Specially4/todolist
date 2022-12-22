@@ -9,7 +9,7 @@ class DatesModelMixin(models.Model):
     created = models.DateTimeField(verbose_name="Дата создания")
     updated = models.DateTimeField(verbose_name="Дата последнего обновления")
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: str, **kwargs: int) -> super:
         if not self.id:
             self.created = timezone.now()
         self.updated = timezone.now()

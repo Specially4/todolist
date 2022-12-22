@@ -1,10 +1,13 @@
+from typing import Any
+
+from django.contrib.sites import requests
 from rest_framework import permissions
 
-from goals.models import BoardParticipant
+from goals.models import BoardParticipant, Board, Category, Goal, Comment
 
 
 class BoardPermissions(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request: requests, view: Any, obj: Board) -> bool:
         if not request.user.is_authenticated:
             return False
         if request.method in permissions.SAFE_METHODS:
@@ -17,7 +20,7 @@ class BoardPermissions(permissions.BasePermission):
 
 
 class CategoryPermissions(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request: requests, view: Any, obj: Category) -> bool:
         if not request.user.is_authenticated:
             return False
         if request.method in permissions.SAFE_METHODS:
@@ -32,7 +35,7 @@ class CategoryPermissions(permissions.BasePermission):
 
 
 class GoalPermissions(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request: requests, view: Any, obj: Goal) -> bool:
         if not request.user.is_authenticated:
             return False
         if request.method in permissions.SAFE_METHODS:
@@ -47,7 +50,7 @@ class GoalPermissions(permissions.BasePermission):
 
 
 class CommentPermissions(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request: requests, view: Any, obj: Comment) -> bool:
         if not request.user.is_authenticated:
             return False
         if request.method in permissions.SAFE_METHODS:

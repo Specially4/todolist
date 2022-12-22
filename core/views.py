@@ -1,6 +1,6 @@
-from django.contrib.auth import login, get_user, logout
+from django.contrib.auth import login,logout
+from django.contrib.sites import requests
 from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -26,10 +26,10 @@ class RetrieveUserView(RetrieveUpdateDestroyAPIView):
     serializer_class = RetrieveUserSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
+    def get_object(self) -> User:
         return self.request.user
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request: requests, *args: str, **kwargs: int) -> Response:
         """
         Переопределил для того чтобы при выходе из профиля, пользователь не удалялся из бд.
         """
@@ -40,7 +40,7 @@ class RetrieveUserView(RetrieveUpdateDestroyAPIView):
 class LoginUserView(GenericAPIView):
     serializer_class = LoginSerializer
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: requests, *args: str, **kwargs: int) -> Response:
         serializer: LoginSerializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
@@ -54,5 +54,5 @@ class PasswordUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PasswordUpdateSerializer
 
-    def get_object(self):
+    def get_object(self) -> User:
         return self.request.user

@@ -30,7 +30,7 @@ class GoalListView(ListAPIView):
     ordering = ["priority", "due_date"]
     search_fields = ["title"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Goal:
         return Goal.objects.filter(
             category__board__participants__user=self.request.user
         )
@@ -41,12 +41,12 @@ class GoalView(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.GoalSerializer
     permission_classes = [permissions.IsAuthenticated, GoalPermissions]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Goal:
         return Goal.objects.filter(
             category__board__participants__user=self.request.user
         )
 
-    def perform_destroy(self, instance):
+    def perform_destroy(self, instance: Goal) -> Goal:
         instance.status = Goal.Status.archived
         instance.save()
         return instance

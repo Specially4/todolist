@@ -19,7 +19,7 @@ from core import views
 
 urlpatterns = [
     path('signup', views.CreateUserView.as_view(), name='signup'),
-    path('profile', views.RetrieveUserView.as_view(), name='profile'),
     path('login', views.LoginUserView.as_view(), name='login'),
+    path('profile', views.RetrieveUserView.as_view(), name='profile'),
     path('update_password', views.PasswordUpdateView.as_view(), name='update_password'),
 ]

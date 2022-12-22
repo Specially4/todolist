@@ -19,10 +19,10 @@ class BoardView(RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, BoardPermissions]
     serializer_class = BoardSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> Board:
         return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
 
-    def perform_destroy(self, instance: Board):
+    def perform_destroy(self, instance: Board) -> Board:
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
@@ -43,5 +43,5 @@ class BoardListView(ListAPIView):
     ]
     ordering = ["title"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Board:
         return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
